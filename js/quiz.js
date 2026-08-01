@@ -17,10 +17,10 @@ const params = new URLSearchParams(window.location.search);
 quizId = params.get("id");
 
 
+
 requireRole(["student"]).then(async (profile) => {
 
   currentStudent = profile;
-
 
   if (!quizId) {
 
@@ -28,8 +28,8 @@ requireRole(["student"]).then(async (profile) => {
     "No quiz specified.";
 
     return;
-  }
 
+  }
 
   await loadQuiz();
 
@@ -76,9 +76,17 @@ async function loadQuiz() {
 
 
 
-    // Questions stored inside quiz document
+    const qSnap = await db.collection("quizzes")
+      .doc(quizId)
+      .collection("questions")
+      .get();
 
-    questions = quizData.questions || [];
+
+
+    questions = qSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    }));
 
 
 
@@ -93,8 +101,8 @@ async function loadQuiz() {
 
 
 
-
-    document.getElementById("loading").style.display = "none";
+    document.getElementById("loading").style.display =
+    "none";
 
 
 
@@ -134,7 +142,6 @@ async function loadQuiz() {
 
 
 
-
 function startQuiz() {
 
 
@@ -169,11 +176,9 @@ function startQuiz() {
   updateTimerDisplay();
 
 
-
   timerInterval = setInterval(tick,1000);
 
 }
-
 
 
 
@@ -201,23 +206,22 @@ function tick() {
 
 
 
-
 function updateTimerDisplay(){
 
-  const el = document.getElementById("timer");
+  const timer =
+  document.getElementById("timer");
 
 
-  if(!el) return;
+  const m =
+  Math.floor(secondsRemaining / 60);
+
+
+  const s =
+  secondsRemaining % 60;
 
 
 
-  const m = Math.floor(secondsRemaining / 60);
-
-  const s = secondsRemaining % 60;
-
-
-
-  el.textContent =
+  timer.textContent =
   `⏱ ${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
 
 }
@@ -239,7 +243,7 @@ function renderQuestion(){
 
 
   document.getElementById("q-text").textContent =
-  q.text || q.question;
+  q.text;
 
 
 
@@ -248,19 +252,14 @@ function renderQuestion(){
 
 
 
-  const choicesEl =
-  document.getElementById("q-choices");
-
-
-
-  choicesEl.innerHTML =
-  q.options.map((option,index)=>`
+  document.getElementById("q-choices").innerHTML =
+  q.options.map((opt,index)=>`
 
     <button class="choice"
     data-i="${index}"
     onclick="selectChoice(${index})">
 
-    ${escapeHtml(option)}
+    ${escapeHtml(opt)}
 
     </button>
 
@@ -275,7 +274,6 @@ function renderQuestion(){
 
 
 }
-
 
 
 
@@ -297,8 +295,8 @@ function selectChoice(index){
 
   });
 
-}
 
+}
 
 
 
@@ -308,21 +306,16 @@ function nextQuestion(){
 
   if(session.index < questions.length - 1){
 
-
     session.index++;
-
 
     renderQuestion();
 
 
-  }else{
-
+  } else {
 
     clearInterval(timerInterval);
 
-
     finishQuiz();
-
 
   }
 
@@ -345,7 +338,7 @@ async function finishQuiz(){
 
 
   const timeTakenSec =
-  Math.round((Date.now() - startedAt) / 1000);
+  Math.round((Date.now()-startedAt)/1000);
 
 
 
@@ -360,9 +353,7 @@ async function finishQuiz(){
     session.answers[i];
 
 
-
     const correct =
-    selected !== undefined &&
     selected === q.correctIndex;
 
 
@@ -378,10 +369,9 @@ async function finishQuiz(){
 
       <div class="title">
 
-      ${i+1}. ${escapeHtml(q.text || q.question)}
+      ${i+1}. ${escapeHtml(q.text)}
 
       </div>
-
 
       <div class="meta">
 
@@ -403,7 +393,6 @@ async function finishQuiz(){
 
 
 
-
   document.getElementById("score-num").textContent =
   `${correctCount}/${questions.length}`;
 
@@ -419,12 +408,12 @@ async function finishQuiz(){
 
 
 
-  try{
+  try {
 
 
     await db.collection("results").add({
 
-      quizId,
+      quizId: quizId,
 
       quizTitle: quizData.title,
 
@@ -436,7 +425,7 @@ async function finishQuiz(){
 
       total: questions.length,
 
-      timeTakenSec,
+      timeTakenSec: timeTakenSec,
 
       submittedAt:
       firebase.firestore.FieldValue.serverTimestamp()
@@ -444,9 +433,9 @@ async function finishQuiz(){
     });
 
 
-  }catch(error){
+  } catch(error){
 
-    console.error("Result save failed",error);
+    console.error("Result save error:",error);
 
   }
 
@@ -460,8 +449,7 @@ function formatTime(sec){
 
   const m = Math.floor(sec/60);
 
-  const s = sec%60;
-
+  const s = sec % 60;
 
   return `${m}m ${s}s`;
 
