@@ -1,21 +1,22 @@
 const quizId = new URLSearchParams(window.location.search).get("id");
 
-let quizData = null;
+let quiz = null;
+let current = 0;
 
 
 loadQuiz();
 
 
-async function loadQuiz() {
+async function loadQuiz(){
 
-  try {
+  try{
 
-    const doc = await db.collection("quizzes")
+    const snap = await db.collection("quizzes")
       .doc(quizId)
       .get();
 
 
-    if (!doc.exists) {
+    if(!snap.exists){
 
       document.getElementById("loading").innerHTML =
       "Quiz not found";
@@ -24,44 +25,108 @@ async function loadQuiz() {
     }
 
 
-    quizData = doc.data();
+    quiz = snap.data();
 
 
-    document.getElementById("loading").style.display = "none";
+    document.getElementById("loading").style.display="none";
 
-
-    document.getElementById("quiz-intro").style.display = "block";
+    document.getElementById("quiz-intro").style.display="block";
 
 
     document.getElementById("intro-title").textContent =
-    quizData.title;
+    quiz.title;
 
 
     document.getElementById("intro-desc").textContent =
-    quizData.description || "No description";
+    quiz.description || "";
 
 
     document.getElementById("intro-meta").textContent =
-    `${quizData.questions.length} Questions · ${quizData.durationMinutes} min`;
+    quiz.durationMinutes + " min";
 
 
   }
-  catch(error){
+  catch(e){
 
-    console.error("QUIZ ERROR:", error);
+    console.log(e);
 
     document.getElementById("loading").innerHTML =
-    "Unable to load quiz";
+    "Error loading quiz";
 
   }
 
 }
 
 
+
 function startQuiz(){
 
-  document.getElementById("quiz-intro").style.display = "none";
+  document.getElementById("quiz-intro").style.display="none";
 
-  document.getElementById("quiz-question").style.display = "block";
+  document.getElementById("quiz-question").style.display="block";
+
+  showQuestion();
+
+}
+
+
+
+function showQuestion(){
+
+  let q = quiz.questions[current];
+
+
+  document.getElementById("q-eyebrow").innerHTML =
+  "Question " + (current + 1);
+
+
+  document.getElementById("q-text").innerHTML =
+  q.question;
+
+
+  document.getElementById("q-choices").innerHTML =
+  "";
+
+
+  q.options.forEach(option=>{
+
+    document.getElementById("q-choices").innerHTML +=
+    `
+    <label>
+      <input type="radio" name="answer" value="${option}">
+      ${option}
+    </label>
+    <br>
+    `;
+
+  });
+
+
+  document.getElementById("next-btn").innerHTML =
+  current == quiz.questions.length-1
+  ? "Submit"
+  : "Next";
+
+
+}
+
+
+
+function nextQuestion(){
+
+  if(current < quiz.questions.length-1){
+
+    current++;
+
+    showQuestion();
+
+  }
+  else{
+
+    alert("Quiz completed");
+
+    location.href="student-dashboard.html";
+
+  }
 
 }
