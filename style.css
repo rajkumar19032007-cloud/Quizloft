@@ -1,0 +1,141 @@
+:root{
+  --ink:#1E2A38;
+  --muted:#5B6472;
+  --paper:#F4F6FA;
+  --card:#FFFFFF;
+  --accent:#5B5FEF;
+  --accent-dark:#4347C4;
+  --good:#1F9D6B;
+  --bad:#E14F4F;
+  --gold:#C99A2E;
+  --line:#DCE1EA;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+}
+a{color:var(--accent);}
+
+/* ---------- header / nav ---------- */
+header.topbar{
+  padding:20px 24px;
+  border-bottom:1px solid var(--line);
+  background:var(--card);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:12px;
+}
+.brand{font-family:'Fraunces',serif; font-weight:600; font-size:22px; letter-spacing:-0.02em;}
+.brand span{color:var(--accent);}
+nav.topnav a, nav.topnav button{
+  background:none; border:none; font:inherit; font-weight:600;
+  color:var(--ink); opacity:.6; cursor:pointer; margin-left:20px; font-size:14px;
+  text-decoration:none; padding:6px 0; border-bottom:2px solid transparent;
+}
+nav.topnav a.active, nav.topnav button.active{opacity:1; border-bottom:2px solid var(--accent);}
+.role-badge{
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+  padding:4px 10px; border-radius:20px; background:#EEEFFD; color:var(--accent-dark); margin-left:14px;
+}
+
+/* ---------- layout ---------- */
+main{max-width:760px; margin:0 auto; padding:40px 20px 80px;}
+main.wide{max-width:960px;}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:28px; margin-bottom:18px;
+}
+h1.page-title{font-family:'Fraunces',serif; font-size:28px; margin:0 0 6px; font-weight:600;}
+.sub{color:var(--muted); font-size:14px; margin-bottom:22px;}
+.center{max-width:420px; margin:60px auto;}
+
+/* ---------- forms ---------- */
+label{display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:#4A5568;}
+input[type=text], input[type=email], input[type=password], input[type=number], textarea, select{
+  width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:8px;
+  font:inherit; font-size:14px; margin-bottom:16px; background:#FBFCFE;
+}
+input:focus, textarea:focus, select:focus{outline:2px solid var(--accent); outline-offset:1px;}
+
+.opt-row{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+.opt-row input[type=text]{margin-bottom:0; flex:1;}
+.opt-row input[type=radio]{accent-color:var(--good); width:18px; height:18px; flex-shrink:0;}
+
+/* ---------- buttons ---------- */
+button.primary{
+  background:var(--accent); color:#fff; border:none; padding:12px 22px;
+  border-radius:8px; font:inherit; font-weight:600; font-size:14px; cursor:pointer;
+}
+button.primary:hover{background:var(--accent-dark);}
+button.primary:disabled{opacity:.5; cursor:not-allowed;}
+button.ghost{
+  background:none; border:1px solid var(--line); padding:12px 20px; border-radius:8px;
+  font:inherit; font-weight:600; font-size:14px; cursor:pointer; color:var(--ink);
+}
+button.ghost:hover{border-color:var(--accent); color:var(--accent);}
+button.danger{
+  background:none; border:none; color:var(--bad); cursor:pointer; font:inherit; font-weight:600; font-size:13px;
+}
+.row{display:flex; gap:12px; align-items:center; flex-wrap:wrap;}
+.between{justify-content:space-between;}
+
+/* ---------- messages ---------- */
+.msg{font-size:13px; margin:-8px 0 16px; min-height:16px;}
+.msg.err{color:var(--bad);}
+.msg.ok{color:var(--good);}
+
+/* ---------- lists / items ---------- */
+.item{
+  border:1px solid var(--line); border-radius:10px; padding:16px 18px; margin-bottom:12px;
+  display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;
+}
+.item .title{font-family:'Fraunces',serif; font-weight:600; font-size:17px; margin-bottom:4px;}
+.item .meta{color:var(--muted); font-size:13px;}
+.empty{color:var(--muted); font-size:14px; text-align:center; padding:30px 0;}
+
+/* ---------- quiz taking ---------- */
+.timer{
+  display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:14px;
+  padding:6px 14px; border-radius:20px; background:#EEEFFD; color:var(--accent-dark);
+}
+.timer.low{background:#FCEDED; color:var(--bad);}
+.progress-wrap{background:#E7EAF2; border-radius:6px; height:8px; overflow:hidden; margin:18px 0 22px;}
+.progress-bar{background:var(--accent); height:100%; transition:width .3s ease;}
+.q-eyebrow{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:#8991A3; font-weight:700; margin-bottom:10px;}
+.q-text{font-family:'Fraunces',serif; font-size:20px; margin-bottom:20px; line-height:1.4;}
+.choice{
+  display:block; width:100%; text-align:left; padding:14px 16px; margin-bottom:10px;
+  border:1px solid var(--line); border-radius:10px; background:#FBFCFE; cursor:pointer;
+  font:inherit; font-size:14.5px; color:var(--ink); transition:.15s;
+}
+.choice:hover{border-color:var(--accent);}
+.choice.selected{border-color:var(--accent); background:#EEEFFD;}
+.choice.correct{border-color:var(--good); background:#EAF8F1;}
+.choice.incorrect{border-color:var(--bad); background:#FCEDED;}
+
+.score-hero{text-align:center; padding:30px 10px 10px;}
+.score-num{font-family:'Fraunces',serif; font-size:64px; font-weight:600; color:var(--accent); line-height:1;}
+.score-label{color:var(--muted); font-size:14px; margin-top:6px;}
+
+/* ---------- leaderboard ---------- */
+table.leaderboard{width:100%; border-collapse:collapse;}
+table.leaderboard th{
+  text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--muted); border-bottom:1px solid var(--line); padding:8px 10px;
+}
+table.leaderboard td{padding:12px 10px; border-bottom:1px solid var(--line); font-size:14px;}
+table.leaderboard tr:last-child td{border-bottom:none;}
+.rank{font-family:'Fraunces',serif; font-weight:600; color:var(--accent);}
+.rank.gold{color:var(--gold);}
+
+footer.foot{text-align:center; color:#9AA2B1; font-size:12px; padding:20px;}
+
+@media (max-width:560px){
+  main{padding:24px 14px 60px;}
+  .card{padding:20px;}
+  header.topbar{padding:16px;}
+  nav.topnav a, nav.topnav button{margin-left:12px;}
+}

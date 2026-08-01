@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quizloft — Take Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">Quiz<span>loft</span><span class="role-badge">Student</span></div>
+  <nav class="topnav">
+    <a href="student-dashboard.html">Dashboard</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <button onclick="logout()">Log out</button>
+  </nav>
+</header>
+
+<main>
+
+  <div id="loading" class="card empty">Loading quiz…</div>
+
+  <div id="quiz-intro" class="card" style="display:none;">
+    <h1 class="page-title" id="intro-title"></h1>
+    <div class="sub" id="intro-desc"></div>
+    <div class="row between" style="margin-bottom:8px;">
+      <span class="meta" id="intro-meta"></span>
+    </div>
+    <button class="primary" onclick="startQuiz()">Start quiz</button>
+  </div>
+
+  <div id="quiz-question" class="card" style="display:none;">
+    <div class="row between">
+      <div class="q-eyebrow" id="q-eyebrow"></div>
+      <div class="timer" id="timer">⏱ --:--</div>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%;"></div></div>
+    <div class="q-text" id="q-text"></div>
+    <div id="q-choices"></div>
+    <div class="row" style="justify-content:flex-end; margin-top:10px;">
+      <button class="primary" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+
+  <div id="quiz-results" style="display:none;">
+    <div class="card score-hero">
+      <div class="score-num" id="score-num">0/0</div>
+      <div class="score-label">Correct answers · <span id="time-taken"></span></div>
+    </div>
+    <div class="card">
+      <h1 class="page-title" style="font-size:18px;">Review</h1>
+      <div id="review-list"></div>
+    </div>
+    <div class="row" style="justify-content:center; margin-top:6px;">
+      <button class="ghost" onclick="location.href='student-dashboard.html'">Back to dashboard</button>
+      <button class="ghost" onclick="location.href='leaderboard.html?quiz=' + quizId">View leaderboard</button>
+    </div>
+  </div>
+
+</main>
+
+<footer class="foot">Quizloft · powered by Firebase</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth-guard.js"></script>
+<script src="js/quiz.js"></script>
+</body>
+</html>

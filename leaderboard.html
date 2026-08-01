@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quizloft — Leaderboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">Quiz<span>loft</span><span class="role-badge" id="role-badge"></span></div>
+  <nav class="topnav">
+    <a href="#" id="dashboard-link">Dashboard</a>
+    <a href="leaderboard.html" class="active">Leaderboard</a>
+    <button onclick="logout()">Log out</button>
+  </nav>
+</header>
+
+<main>
+  <div class="card">
+    <h1 class="page-title">Leaderboard</h1>
+    <div class="sub">Top scores, ranked by score then speed.</div>
+
+    <label for="quiz-select">Quiz</label>
+    <select id="quiz-select"><option value="">Loading quizzes…</option></select>
+
+    <div id="board"><div class="empty">Pick a quiz to see rankings.</div></div>
+  </div>
+</main>
+
+<footer class="foot">Quizloft · powered by Firebase</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth-guard.js"></script>
+<script src="js/leaderboard.js"></script>
+</body>
+</html>

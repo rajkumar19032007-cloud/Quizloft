@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quizloft — Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">Quiz<span>loft</span></div>
+</header>
+
+<main>
+  <div class="card center">
+    <h1 class="page-title">Create your account</h1>
+    <div class="sub">Join as a student to take quizzes, or as an admin to build them.</div>
+
+    <label for="name">Full name</label>
+    <input type="text" id="name" placeholder="Ada Lovelace">
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="you@example.com">
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="At least 6 characters">
+
+    <label for="role">I am a…</label>
+    <select id="role">
+      <option value="student">Student</option>
+      <option value="admin">Admin (quiz creator)</option>
+    </select>
+
+    <div class="msg err" id="register-msg"></div>
+
+    <button class="primary" style="width:100%;" onclick="handleRegister()">Create account</button>
+
+    <div class="sub" style="text-align:center; margin-top:18px; margin-bottom:0;">
+      Already have an account? <a href="index.html">Log in</a>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">Quizloft · powered by Firebase</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/register.js"></script>
+</body>
+</html>

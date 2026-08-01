@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quizloft — Log in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">Quiz<span>loft</span></div>
+</header>
+
+<main>
+  <div class="card center">
+    <h1 class="page-title">Welcome back</h1>
+    <div class="sub">Log in to take quizzes or manage your quiz bank.</div>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="you@example.com">
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="••••••••">
+
+    <div class="msg err" id="login-msg"></div>
+
+    <button class="primary" style="width:100%;" onclick="handleLogin()">Log in</button>
+
+    <div class="sub" style="text-align:center; margin-top:18px; margin-bottom:0;">
+      New here? <a href="register.html">Create an account</a>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">Quizloft · powered by Firebase</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>

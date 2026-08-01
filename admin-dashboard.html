@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quizloft — Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">Quiz<span>loft</span><span class="role-badge">Admin</span></div>
+  <nav class="topnav">
+    <a href="admin-dashboard.html" class="active">Admin Panel</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <button onclick="logout()">Log out</button>
+  </nav>
+</header>
+
+<main class="wide">
+
+  <div class="card">
+    <h1 class="page-title">Create a quiz</h1>
+    <div class="sub">Set the basics, then add questions to it below.</div>
+
+    <label for="quiz-title">Quiz title</label>
+    <input type="text" id="quiz-title" placeholder="e.g. World Capitals">
+
+    <label for="quiz-desc">Description</label>
+    <input type="text" id="quiz-desc" placeholder="A short summary shown to students">
+
+    <label for="quiz-duration">Time limit (minutes)</label>
+    <input type="number" id="quiz-duration" min="1" value="10">
+
+    <div class="msg err" id="quiz-msg"></div>
+    <button class="primary" onclick="createQuiz()">Create quiz</button>
+  </div>
+
+  <div class="card">
+    <h1 class="page-title" style="font-size:20px;">Add a question to a quiz</h1>
+
+    <label for="quiz-select">Choose quiz</label>
+    <select id="quiz-select"><option value="">Loading quizzes…</option></select>
+
+    <label for="qtext">Question</label>
+    <textarea id="qtext" rows="2" placeholder="e.g. What is the capital of Japan?"></textarea>
+
+    <label>Answer choices — select the correct one</label>
+    <div class="opt-row"><input type="radio" name="correct" value="0" checked><input type="text" class="opt" placeholder="Option A"></div>
+    <div class="opt-row"><input type="radio" name="correct" value="1"><input type="text" class="opt" placeholder="Option B"></div>
+    <div class="opt-row"><input type="radio" name="correct" value="2"><input type="text" class="opt" placeholder="Option C"></div>
+    <div class="opt-row"><input type="radio" name="correct" value="3"><input type="text" class="opt" placeholder="Option D"></div>
+
+    <div class="msg err" id="question-msg"></div>
+    <button class="primary" onclick="addQuestion()">Add question</button>
+  </div>
+
+  <div class="card">
+    <h1 class="page-title" style="font-size:20px;">All quizzes</h1>
+    <div id="quiz-list"><div class="empty">Loading…</div></div>
+  </div>
+
+</main>
+
+<footer class="foot">Quizloft · powered by Firebase</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth-guard.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
