@@ -1,12 +1,15 @@
 requireRole(["student"]).then((profile) => {
+
   document.getElementById("student-name").textContent =
     profile.name.split(" ")[0];
 
   loadQuizzes();
   loadMyResults(profile.uid);
+
 });
 
 
+// Escape HTML
 function escapeHtml(str) {
   const div = document.createElement("div");
   div.textContent = str || "";
@@ -14,132 +17,198 @@ function escapeHtml(str) {
 }
 
 
-// Load available quizzes
+// ==========================
+// LOAD QUIZZES
+// ==========================
 async function loadQuizzes() {
+
   const listEl = document.getElementById("quiz-list");
 
   try {
-    const snap = await db.collection("quizzes")
-      .orderBy("createdAt", "desc")
-      .get();
+
+    const snap = await db.collection("quizzes").get();
+
 
     if (snap.empty) {
+
       listEl.innerHTML =
-        '<div class="empty">No quizzes are available yet.</div>';
+      `<div class="empty">
+        No quizzes are available yet.
+      </div>`;
+
       return;
     }
 
+
     listEl.innerHTML = snap.docs.map((doc) => {
+
       const q = doc.data();
 
+
       return `
-        <div class="item">
-          <div>
-            <div class="title">${escapeHtml(q.title)}</div>
-            <div class="meta">
-              ${escapeHtml(q.description || "No description")} · 
-              ${q.durationMinutes} min
-            </div>
+      <div class="item">
+
+        <div>
+
+          <div class="title">
+            ${escapeHtml(q.title)}
           </div>
 
-          <button class="primary"
-          onclick="location.href='quiz.html?id=${doc.id}'">
-          Start quiz
-          </button>
+
+          <div class="meta">
+            ${escapeHtml(q.description || "No description")}
+            · ${q.durationMinutes || 0} min
+          </div>
+
         </div>
+
+
+        <button class="primary"
+        onclick="location.href='quiz.html?id=${doc.id}'">
+          Start quiz
+        </button>
+
+
+      </div>
       `;
+
     }).join("");
 
+
   } catch(error) {
-    console.error("QUIZ ERROR:", error);
+
+    console.error("QUIZ LOAD ERROR:", error);
+
+
     listEl.innerHTML =
-      '<div class="empty">Unable to load quizzes.</div>';
+    `<div class="empty">
+      Unable to load quizzes
+    </div>`;
+
   }
+
 }
 
 
-// Load student's past results
+
+// ==========================
+// LOAD STUDENT RESULTS
+// ==========================
 async function loadMyResults(uid) {
 
-  const listEl = document.getElementById("my-results");
+
+  const listEl =
+  document.getElementById("my-results");
+
 
   try {
 
-    console.log("Loading results for UID:", uid);
 
     const snap = await db.collection("results")
       .where("studentId", "==", uid)
       .get();
 
 
-    console.log("Results found:", snap.size);
-
 
     if (snap.empty) {
 
+
       listEl.innerHTML =
-      '<div class="empty">You haven\'t taken any quizzes yet.</div>';
+      `<div class="empty">
+        You haven't taken any quizzes yet.
+      </div>`;
+
 
       return;
+
     }
 
 
-    let results = snap.docs.map(doc => doc.data());
+
+    let results =
+    snap.docs.map(doc => doc.data());
 
 
-    // Latest result first
-    results.sort((a,b) => {
-      return b.submittedAt.seconds - a.submittedAt.seconds;
+
+    results.sort((a,b)=>{
+
+      if(!a.submittedAt || !b.submittedAt)
+      return 0;
+
+      return b.submittedAt.seconds -
+      a.submittedAt.seconds;
+
     });
 
 
-    listEl.innerHTML = results.map((r)=>{
+
+    listEl.innerHTML =
+    results.map((r)=>{
+
 
       const percentage =
-      Math.round((r.score / r.total) * 100);
+      Math.round(
+        (r.score / r.total) * 100
+      );
+
 
 
       return `
-        <div class="item">
 
-          <div>
+      <div class="item">
 
-            <div class="title">
-              ${escapeHtml(r.quizTitle)}
-            </div>
+        <div>
 
-            <div class="meta">
-              ${r.score}/${r.total} correct 
-              (${percentage}%)
-              · ${formatTime(r.timeTakenSec)}
-            </div>
-
+          <div class="title">
+            ${escapeHtml(r.quizTitle)}
           </div>
 
+
+          <div class="meta">
+            ${r.score}/${r.total}
+            correct (${percentage}%)
+            · ${formatTime(r.timeTakenSec)}
+          </div>
+
+
         </div>
+
+      </div>
+
       `;
+
 
     }).join("");
 
 
+
   } catch(error) {
+
 
     console.error("RESULT ERROR:", error);
 
+
     listEl.innerHTML =
     `<div class="empty">
-      Error: ${error.message}
+      Unable to load results
     </div>`;
 
+
   }
+
 }
 
 
 
+// Format time
 function formatTime(sec) {
+
+  sec = sec || 0;
 
   const m = Math.floor(sec / 60);
   const s = sec % 60;
 
+
   return `${m}m ${s}s`;
+
 }
