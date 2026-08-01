@@ -1,9 +1,10 @@
 const quizId = new URLSearchParams(window.location.search).get("id");
 
-const quizTitle = document.getElementById("quiz-title");
-const quizContainer = document.getElementById("quiz-container");
+let quizData = null;
+
 
 loadQuiz();
+
 
 async function loadQuiz() {
 
@@ -16,49 +17,32 @@ async function loadQuiz() {
 
     if (!doc.exists) {
 
-      quizContainer.innerHTML =
-      `<div class="empty">
-        Quiz not found
-      </div>`;
+      document.getElementById("loading").innerHTML =
+      "Quiz not found";
 
       return;
     }
 
 
-    const quiz = doc.data();
+    quizData = doc.data();
 
 
-    quizTitle.textContent = quiz.title;
+    document.getElementById("loading").style.display = "none";
 
 
-    quizContainer.innerHTML =
-    quiz.questions.map((q,index)=>{
-
-      return `
-      <div class="question">
-
-        <h3>
-        ${index + 1}. ${q.question}
-        </h3>
+    document.getElementById("quiz-intro").style.display = "block";
 
 
-        ${q.options.map(option=>`
-
-          <label>
-            <input 
-            type="radio"
-            name="q${index}"
-            value="${option}">
-            ${option}
-          </label>
-
-        `).join("")}
+    document.getElementById("intro-title").textContent =
+    quizData.title;
 
 
-      </div>
-      `;
+    document.getElementById("intro-desc").textContent =
+    quizData.description || "No description";
 
-    }).join("");
+
+    document.getElementById("intro-meta").textContent =
+    `${quizData.questions.length} Questions · ${quizData.durationMinutes} min`;
 
 
   }
@@ -66,11 +50,18 @@ async function loadQuiz() {
 
     console.error("QUIZ ERROR:", error);
 
-    quizContainer.innerHTML =
-    `<div class="empty">
-      Unable to load quiz
-    </div>`;
+    document.getElementById("loading").innerHTML =
+    "Unable to load quiz";
 
   }
+
+}
+
+
+function startQuiz(){
+
+  document.getElementById("quiz-intro").style.display = "none";
+
+  document.getElementById("quiz-question").style.display = "block";
 
 }
