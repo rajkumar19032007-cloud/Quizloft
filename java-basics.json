@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What is JVM?",
+    "options": [
+      "Java Virtual Machine",
+      "Java Variable Method",
+      "Java Visual Machine",
+      "Java Version Manager"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which keyword is used to create an object in Java?",
+    "options": [
+      "new",
+      "make",
+      "object",
+      "class"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Java is a ______ language.",
+    "options": [
+      "Programming",
+      "Markup",
+      "Database",
+      "Operating System"
+    ],
+    "correctAnswer": 0
+  }
+]
