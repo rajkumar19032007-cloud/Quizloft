@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Questions</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Import Quiz Questions</h2>
+
+    <label>Select Quiz</label><br><br>
+
+    <select id="quizSelect">
+        <option value="">Loading quizzes...</option>
+    </select>
+
+    <br><br>
+
+    <input type="file" id="jsonFile" accept=".json">
+
+    <br><br>
+
+    <button onclick="importQuestions()">
+        Upload Questions
+    </button>
+
+    <p id="status"></p>
+
+</div>
+
+<script type="module" src="js/import.js"></script>
+
+</body>
+</html>
